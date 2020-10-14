@@ -13,7 +13,7 @@ filetype plugin indent on                                                       
 filetype plugin on                                                                        " Enable autocomplete from filetype detection
 set nocompatible                                                                          " Improved, required
 set nowrap
-set paste
+" set paste
 set ttyfast                                                                               " Indicate fast terminal conn for faster redraw
 set ttyscroll=3                                                                           " Speedup scrolling
 set laststatus=2                                                                          " Show status line always
@@ -23,7 +23,7 @@ set autoread                                                                    
 set showcmd                                                                               " Show me what I'm typing
 set fileformats=unix,dos,mac                                                              " Prefer Unix over Windows over OS 9 formats
 set smartcase                                                                             " but not it begins with upper case
-set completeopt=menu,menuone                                                              " Show popup menu, even if there is one entry
+set completeopt=menu,menuone,noinsert                                                              " Show popup menu, even if there is one entry
 set pumheight=10                                                                          " Completion window max size
 set nocursorcolumn                                                                        " Do not highlight column (speeds up highlighting)
 set nocursorline                                                                          " Do not highlight cursor (speeds up highlighting)
@@ -40,9 +40,10 @@ autocmd VimResized * :wincmd =                                                  
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>                                            " Zoom a vim pane, <C-w>= to re-balance
 nnoremap <leader>= :wincmd =<cr>
 set autowriteall                                                                          " Autowrite buffers when switiching buffers
-set complete=.,w,b,u                                                                      " Loaded buffer and unloaded buffer
+set complete=.,w,b,u,t,i                                                                      " Loaded buffer and unloaded buffer
 set guifont=Hack\ Nerd\ Font:h16                                                          " Vim font
 set hlsearch                                                                              " Search with highlight on
+set esckeys
 
 
 
@@ -53,8 +54,8 @@ set history=999                                                                 
 set undolevels=999                                                                        " Moar undo (default=100)
 set autoread                                                                              " reload files if changed externally
 if has('persistent_undo')                                                                 " This enables us to undo files even if you exit Vim.
-  set undofile
-  set undodir=~/.config/vim/tmp/undo//
+set undofile
+set undodir=~/.config/vim/tmp/undo//
 endif
 
 
@@ -71,7 +72,6 @@ set noswapfile                                                                  
 
 
 
-let g:AutoPairsFlyMode = 1                                                                " Autoclose pair
 nmap <C-F8> :TagbarToggle<CR>                                                             " Automatic tag creation
 
 
@@ -91,7 +91,7 @@ set guioptions-=L
 set guioptions-=r
 set guioptions-=R
 hi LineNr ctermbg=bg                                                                      " Set lineno background
-set foldcolumn=2                                                                          " Fold column to two
+set foldcolumn=0                                                                          " Fold column to the number
 hi foldcolumn ctermbg=bg                                                                  " Fake sidespace and lineno color
 hi vertsplit ctermbg=bg ctermfg=bg                                                        " Get rid of ugly split borders
 
@@ -139,11 +139,22 @@ nnoremap <leader>a :cclose<CR>
 "---------------------- plugins ----------------------"
 
 "/
+"/ ---------------------- vim-tmux-navigator ----------------------
+"/
+" nnoremap <silent> <c-\> :NERDTreeToggle<cr>
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+
+"/
 "/ ---------------------- NERDTree ----------------------
 "/
 let NERDTreeHijackNetrw=0
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-nmap <C-1> :NERDTreeToggle<cr>                                                            " Make easier to NERDTree toggle
+nmap <C-\> :NERDTreeToggle<cr>                                                            " Make easier to NERDTree toggle
+" nnoremap <silent> <C-l> :NERDTreeToggle<cr>
 let g:NERDTreeDirArrowExpandable = ''                                                     " Remove nerdtree arrow
 let g:NERDTreeDirArrowCollapsible = ''
 let NERDTreeAutoDeleteBuffer = 1                                                          " Automatically delete the buffer of the file you just deleted with NerdTree:
@@ -176,6 +187,30 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 
 "/
+"/ ---------------------- SimplyFold ----------------------
+"/
+let g:SimpylFold_docstring_preview = 1
+let g:SimpylFold_fold_import = 1
+
+" source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled = 1
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {'python': ['black', 'isort']}
+let b:ale_fix_on_save = 1
+
+"/
+"/ ---------------------- auto-pairs ----------------------
+"/
+let g:AutoPairsFlyMode = 1
+
+"/
+"/ ---------------------- Greplace.vim ----------------------
+"/
+set grepprg=ag																																						" We want to use Ag for search
+let g:grep_cmd_opts = '--line-numbers --noheading'
+
+
+"/
 "/ ---------------------- incsearch ----------------------
 "/
 map /  <Plug>(incsearch-forward)
@@ -201,11 +236,15 @@ let g:NERDTreeGitStatusShowClean = 1                                            
 "/
 "/ ---------------------- vim-airline ----------------------
 "/
-"-------------------------------------------"
 let g:airline_theme='papercolor'
 let g:webdevicons_enable_airline_tabline = 1                                              " Adding to vim-airline's tabline
 let g:webdevicons_enable_airline_statusline = 1                                           " Adding to vim-airline's statusline
+let g:airline_inactive_collapse=1                                                         " windows should have the left section collapsed to only the filename
+let g:airline_focuslost_inactive = 1
+let g:airline_stl_path_style = 'short'
 let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#buffer_nr_show = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -237,24 +276,6 @@ let g:airline_symbols.linenr = ''
 
 "---------------ale----------------------------"
 " Only run linters named in ale_linters settings.
-let g:ale_linters_explicit = 1
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'eslint'],
-\		'css': ['stylelint'],
-\		'less': ['stylelint'],
-\   'scss': ['stylelint'],
-\   'vue': ['eslint']
-\}
-let g:ale_fixers = {
-\    'javascript': ['eslint'],
-\    'typescript': ['eslint', 'prettier'],
-\    'vue': ['eslint'],
-\		 'css': ['stylelint'],
-\		 'less': ['stylelint'],
-\    'scss': ['stylelint', 'prettier'],
-\    'html': ['prettier']
-\}
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 nmap <silent> <C-1> <Plug>(ale_previous_wrap)
