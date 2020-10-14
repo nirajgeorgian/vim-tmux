@@ -11,35 +11,47 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ryanoasis/vim-devicons'
-"Autocomplete
-Plugin 'Valloric/YouCompleteMe'
-"Vim plugin for golang
-"Plugin 'fatih/vim-go'
 
+"Autocomplete
+" Plugin 'Valloric/YouCompleteMe'
+
+"python plugins
+" Plugin 'nvie/vim-flake8'
+" Plugin 'tmhedberg/SimpylFold'
+Plugin 'Vimjas/vim-python-pep8-indent'
+
+"vcs
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'tpope/vim-fugitive' " best Git wrapper of all time
+Plugin 'airblade/vim-gitgutter'
+
+"tmux
+Plugin 'dense-analysis/ale'
+Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'sheerun/vim-polyglot' " A collection of language packs for Vim.
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-syntastic/syntastic'
 Plugin 'Raimondi/delimitMate'
-Plugin 'tpope/vim-fugitive' " best Git wrapper of all time
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'editorconfig/editorconfig-vim' " Editor config for vim
-Plugin 'jparise/vim-graphql'
 Plugin 'kien/ctrlp.vim'
-Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'ervandew/supertab'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'rking/ag.vim'
+Plugin 'skwp/greplace.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'christoomey/vim-tmux-navigator'
 
-"C and CPP configuratyion
-Plugin 'rhysd/vim-clang-format'
+" Optional:
+Plugin 'honza/vim-snippets'
 
-" Javascript configuration
-Plugin 'pangloss/vim-javascript'
-Plugin 'leshill/vim-json'
-Plugin 'mxw/vim-jsx'
-Plugin 'stephpy/vim-yaml'
+" theme
+Plugin 'haishanh/night-owl.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
